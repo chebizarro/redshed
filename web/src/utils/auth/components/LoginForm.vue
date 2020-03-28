@@ -124,98 +124,95 @@
     </div>
   </div>
 </template>
-<script>
-import {
-  mapState,
-  mapMutations,
-  mapActions,
-} from 'vuex'
-import auth from '@/config/auth'
 
-export default {
-  name: 'login',
-  props: {
-    redirect: {
-      type: String,
-      default: '/',
-    },
-    showLogo: {
-      type: Boolean,
-      default: true,
-    },
-    logo: {
-      type: String,
-      default: 'vue-crud-sm.png',
-    },
-    localeSelectable: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  data () {
-    return {
-      valid: false,
-      password: '',
-      user: '',
-      passwordHidden: true,
-      alphanumericRegex: /^[a-zA-Z0-9]+$/,
-      emailRegex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-    }
-  },
-  computed: {
-    ...mapState('auth', [
-      'loginWait',
-      'loginFailed',
-    ]),
-    ...mapState(['locales']),
-    loginRegex () {
-      return auth.loginRegex ? auth.loginRegex : (auth.loginWithEmail ? this.emailRegex : this.alphanumericRegex)
-    },
-    loginRules () {
-      return [
-        v => !!v || this.$t('global.login.loginRequired'),
-        v => this.emailRegex.test(v) || this.$t('global.login.incorrectLogin'),
-      ]
-    },
-    passwordRegex () {
-      return auth.passwordRegex ? auth.passwordRegex : this.alphanumericRegex
-    },
-    passwordRules () {
-      return [
-        v => !!v || this.$t('global.login.passwordRequired'),
-        v => this.passwordRegex.test(v) || this.$t('global.login.incorrectPassword'),
-      ]
-    },
-    credential () {
-      let credentials = {}
-      credentials[auth.loginFieldName || 'login'] = this.user
-      credentials[auth.passwordFieldName || 'password'] = this.password
-      return credentials
-    },
-    passTextFieldType () {
-      return this.passwordHidden ? 'password' : 'text'
-    },
-    passAppendIcon () {
-      return this.passwordHidden ? 'visibility' : 'visibility_off'
-    },
-  },
-  methods: {
-    ...mapMutations(['setLocale']),
-    ...mapActions('auth', ['login']),
-    changeLocale (locale) {
-      this.$i18n.locale = locale
-      this.$vuetify.lang.current = locale
-      this.setLocale(locale)
-    },
-    loginAttempt () {
-      this.login(this.credential).then(() => {
-        this.$router.push({ path: this.redirect })
-      })
-    },
-  },
+<script lang="ts">
+import { Auth } from '../../../config/auth'
+import { Prop, Vue } from 'vue-property-decorator'
+import { Mutation } from 'vuex-module-decorators'
+import { namespace } from 'vuex-class'
+const auth = namespace('auth')
+import Component from 'vue-class-component'
+
+@Component
+export default class LoginForm extends Vue {
+  private valid: boolean = false
+  private password: string
+  private user: string
+  private passwordHidden: boolean = true
+  private alphanumericRegex: RegExp = /^[a-zA-Z0-9]+$/
+  private emailRegex: RegExp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+
+  @Prop(String) readonly redirect: string = '/'
+  @Prop(Boolean) readonly showLogo: boolean = true
+  @Prop(String) readonly logo: string = 'vue-crud-sm.png'
+  @Prop(Boolean) readonly localeSelectable: boolean = true
+
+
+  get loginRegex(): RegExp {
+    return Auth.loginRegex ? Auth.loginRegex : (Auth.loginWithEmail ? this.emailRegex : this.alphanumericRegex)
+  }
+
+  get loginRules() {
+    return [
+      v => !!v || this.$t('global.login.loginRequired'),
+      v => this.emailRegex.test(v) || this.$t('global.login.incorrectLogin'),
+    ]
+  }
+
+  get passwordRegex(): RegExp {
+    return Auth.passwordRegex ? Auth.passwordRegex : this.alphanumericRegex
+  }
+
+  get passwordRules() {
+    return [
+      v => !!v || this.$t('global.login.passwordRequired'),
+      v => this.passwordRegex.test(v) || this.$t('global.login.incorrectPassword')
+    ]
+  }
+
+  get credential(): {} {
+    let credentials = {}
+    credentials[Auth.loginFieldName || 'login'] = this.user
+    credentials[Auth.passwordFieldName || 'password'] = this.password
+    return credentials
+  }
+
+  get passTextFieldType(): string {
+    return this.passwordHidden ? 'password' : 'text'
+  }
+
+  get passAppendIcon(): string {
+    return this.passwordHidden ? 'visibility' : 'visibility_off'
+  }
+
+  public changeLocale(locale: string) {
+    this.$i18n.locale = locale
+    this.$vuetify.lang.current = locale
+    this.setLocale(locale)
+  }
+
+  public loginAttempt(): void {
+    this.login(this.credential).then(() => {
+      this.$router.push({ path: this.redirect })
+    })
+  }
+
+  @auth.State
+  public loginWait!: boolean
+
+  @auth.State
+  public loginFailed!: boolean
+
+  @auth.Action
+  public login!
+
+  @Mutation
+  public setLocale!: (newLocale: string) => void
+
 }
 
 </script>
+
 <style lang="scss" scoped>
 .login-form {
   &__fail-alert {
