@@ -9,11 +9,6 @@ module.exports = function (ctx) {
       store: 'src/store/index.ts'
     },
 
-    sourceFiles: {
-      router: 'src/router.ts',
-      store: 'src/store/index.ts',
-    },
-
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
