@@ -1,11 +1,13 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
+const path = require('path');
+const IgnoreNotFoundExportPlugin = require('./build/ignore-not-found');
 
 module.exports = function (ctx) {
   return {
     // Quasar looks for *.js files by default
     sourceFiles: {
-      router: 'src/router/index.ts',
+      router: 'src/router.ts',
       store: 'src/store/index.ts'
     },
 
@@ -13,7 +15,7 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
-      'i18n'
+      'i18n',
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -63,6 +65,10 @@ module.exports = function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
+      open: false,
+
+      // scopeHoisting: false,
+
       // rtl: false, // https://quasar.dev/options/rtl-support
       // showProgress: false,
       // gzip: true,
@@ -73,24 +79,37 @@ module.exports = function (ctx) {
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
-      extendWebpack (cfg) {
-        cfg.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/,
-          options: {
-            formatter: require('eslint').CLIEngine.getFormatter('stylish')
-          }
-        })
-      }
+      extendWebpack (config) {
+        config.plugins.push(new IgnoreNotFoundExportPlugin());
+        config.performance.hints = ctx.prod ? 'warning' : false;
+
+        if (ctx.prod) {
+          // Function names are required to set up functions for VueX functionality
+          config
+            .optimization
+            .minimizer[0] // Terser
+            .options
+            .terserOptions
+            .keep_fnames = true;
+        }
+      },
+
+      chainWebpack: config => {
+        // We're only using a subset from plotly
+        // Add alias to enable typing regardless
+        //config.resolve.alias.set('plotly.js', 'plotly.js-basic-dist');
+
+        // This matches the @ alias set in tsconfig.json
+        config.resolve.alias.set('@', path.resolve(__dirname, './src/'))
+      },
+
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
       port: 8080,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations

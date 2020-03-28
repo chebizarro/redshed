@@ -1,76 +1,78 @@
 module.exports = {
-  root: true,
-
-  // Rules order is important, please avoid shuffling them
-  extends: [
-    // Base ESLint recommended rules
-    'eslint:recommended',
-
-    // ESLint typescript rules
-    // See https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
-    'plugin:@typescript-eslint/eslint-recommended',
+  'root': true,
+  // 'parser': 'vue-eslint-parser',
+  'parserOptions': {
+    'ecmaVersion': 2018,
+    'sourceType': 'module',
+    'parser': '@typescript-eslint/parser'
+  },
+  'extends': [
+    'plugin:vue/recommended',
     'plugin:@typescript-eslint/recommended',
-
-    // `plugin:vue/essential` by default, consider switching to `plugin:vue/strongly-recommended`
-    //  or `plugin:vue/recommended` for stricter rules.
-    // See https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
-    'plugin:vue/essential',
-
-    // Usage with Prettier, provided by 'eslint-config-prettier'.
-    // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage-with-prettier
-    'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/vue'
+    '@vue/typescript',
+    'plugin:quasar/standard',
   ],
-
-  plugins: [
-    // Required to apply rules which need type information
-    '@typescript-eslint',
-    // Required to lint *.vue files
-    // See https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
-    'vue'
-    // Prettier has not been included as plugin to avoid performance impact
-    // See https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
-    // Add it as an extension
-  ],
-
-  // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
-  // See https://eslint.vuejs.org/user-guide/#how-to-use-custom-parser
-  // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-    sourceType: 'module',
-    project: './tsconfig.json'
+  'plugins': ['simple-import-sort', 'quasar'],
+  'rules': {
+    'quotes': ['error', 'single', { 'avoidEscape': true }],
+    'class-methods-use-this': 0,
+    'simple-import-sort/sort': 'error',
+    'sort-imports': 'off',
+    'import/order': 'off',
+    'import/first': 0,
+    'import/extensions': 0,
+    'import/no-unresolved': 0,
+    'import/prefer-default-export': 0,
+    'import/newline-after-import': 0,
+    'object-curly-newline': 0,
+    'no-param-reassign': 0,
+    'no-console': 'warn',
+    'no-multiple-empty-lines': 'error',
+    'comma-dangle': [
+      'error',
+      'always-multiline'
+    ],
+    'semi': 'error',
+    'max-len': [
+      'error',
+      120,
+      2,
+      {
+        'ignoreUrls': true,
+        'ignoreComments': false
+      }
+    ],
+    '@typescript-eslint/indent': 0,
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
+    '@typescript-eslint/no-empty-function': 0,
+    '@typescript-eslint/explicit-function-return-type': ['warn', {
+      allowExpressions: true,
+      allowTypedFunctionExpressions: true,
+      allowHigherOrderFunctions: true,
+    }],
+    'quasar/check-valid-props': 'warn',
+    'vue/no-v-html': 0,
+    'vue/max-attributes-per-line': ['warn', {
+      'singleline': 8,
+      'multiline': {
+        'max': 1,
+        'allowFirstLine': false
+      },
+    }]
   },
-
-  env: {
-    browser: true
-  },
-
-  globals: {
-    ga: true, // Google Analytics
-    cordova: true,
-    __statics: true,
-    process: true
-  },
-
-  // add your custom rules here
-  rules: {
-    'prefer-promise-reject-errors': 'off',
-    quotes: ['warn', 'single'],
-    '@typescript-eslint/indent': ['warn', 2],
-
-    // allow console.log during development only
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // allow debugger during development only
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-
-    // Custom
-    'vue/component-name-in-template-casing': 'off', //['error', 'kebab-case'],
-
-    // Correct typescript linting until at least 2.0.0 major release
-    // See https://github.com/typescript-eslint/typescript-eslint/issues/501
-    // See https://github.com/typescript-eslint/typescript-eslint/issues/493
-    '@typescript-eslint/explicit-function-return-type': 'off'
-  }
+  'overrides': [
+    {
+      'files': ['*.js'],
+      'rules': {
+        '@typescript-eslint/no-var-requires': 'off',
+      }
+    },
+    {
+      'files': ['dev/**.js'],
+      'rules': {
+        'no-console': 'off',
+      }
+    }
+  ]
 }

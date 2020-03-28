@@ -1,16 +1,45 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "sourceMap": true,
-    "target": "es6",
-    "strict": true,
-    "experimentalDecorators": true,
+    "target": "es2015",
     "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "resolveJsonModule": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "sourceMap": true,
+    "allowJs": true,
     "baseUrl": ".",
     "types": [
-      "quasar"
+      "quasar",
+      "webpack-env"
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
     ]
   },
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "test/**/*.ts",
+    "test/**/*.vue"
+  ],
+  "exclude": [
+    ".vscode/**",
+    "node_modules/**"
+  ]
 }

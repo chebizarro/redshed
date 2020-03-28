@@ -23,29 +23,22 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import {Component, Prop} from 'vue-property-decorator';
 
-export default Vue.extend({
-  name: 'EssentialLink',
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
+@Component
+export default class EssentialLink extends Vue {
 
-    caption: {
-      type: String,
-      default: ''
-    },
+  @Prop({ type: String, required: true })
+  public title!: string;
 
-    link: {
-      type: String,
-      default: '#'
-    },
+  @Prop({ type: String, default: '' })
+  public caption!: string;
 
-    icon: {
-      type: String,
-      default: ''
-    }
-  }
-})
+  @Prop({ type: String, default: '#' })
+  public readonly link!: string;
+
+  @Prop({ type: String, default: '' })
+  public icon!: string;
+
+}
 </script>

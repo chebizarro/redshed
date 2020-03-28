@@ -2,12 +2,11 @@
   "@quasar/typescript": {
     "webpack": "plugin",
     "rename": true,
-    "vscode": false,
-    "prettier": true
+    "prettier": false
   },
   "@quasar/testing": {
     "harnesses": [
-      "e2e-webdriver"
+      "unit-jest"
     ]
   },
   "@quasar/testing-unit-jest": {
