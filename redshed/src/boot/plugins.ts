@@ -2,10 +2,13 @@ import PortalVue from 'portal-vue';
 import { PluginObject, VueConstructor } from 'vue';
 
 import { externalComponent } from '@/helpers/component-ref';
+
+import { dashboardStore } from '@/store/dashboards';
 import { pluginStore, UIPlugin } from '@/store/plugins';
 import { serviceStore } from '@/store/services';
 import { systemStore } from '@/store/system';
 
+import database from '@/plugins/database';
 import startup from '@/plugins/startup';
 import store from '@/store';
 
@@ -38,6 +41,7 @@ export default async ({ Vue }: { Vue: VueConstructor }): Promise<void> => {
   Vue.config.performance = Boolean(process.env.DEV && process.env.BLOX_PERFORMANCE);
 
   Vue.use(startup);
+  Vue.use(database);
 
   const plugins: PluginObject<any>[] = [
     PortalVue,
