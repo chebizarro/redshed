@@ -11,10 +11,10 @@ import (
 // main
 func main() {
 	sc := config.Server()
-	orm, err := orm.Factory(sc)
-	defer orm.DB.Close()
+	o, err := orm.Factory(sc)
+	defer o.DB.Close()
 	if err != nil {
 		logger.Panic(err)
 	}
-	server.Run(sc, orm)
+	server.Run(sc, o)
 }
