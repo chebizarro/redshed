@@ -1,4 +1,4 @@
-package util
+package utils
 
 // Contains tells whether a contains x.
 func Contains(a []string, x string) bool {
