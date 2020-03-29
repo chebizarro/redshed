@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cmelgarejo/go-gql-server/pkg/utils"
+	"github.com/chebizarro/redshed/pkg/utils"
 )
 
 type permissionTypes struct {

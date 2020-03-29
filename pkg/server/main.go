@@ -3,7 +3,6 @@ package server
 import (
 	"log"
 
-	"github.com/chebizarro/redshed/internal/handlers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +17,7 @@ func init() {
 func Run() {
 	r := gin.Default()
 	// Setup routes
-	r.GET("/ping", handlers.Ping())
+	//r.GET("/ping", handlers.Ping())
 	log.Println("Running @ http://" + HOST + ":" + PORT)
 	log.Fatalln(r.Run(HOST + ":" + PORT))
 }
