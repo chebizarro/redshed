@@ -1,23 +1,26 @@
 package server
 
 import (
-	"log"
-
+	"github.com/chebizarro/redshed/internal/logger"
+	"github.com/chebizarro/redshed/internal/orm"
+	"github.com/chebizarro/redshed/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
 
-var HOST, PORT string
-
-func init() {
-	HOST = "localhost"
-	PORT = "7777"
-}
-
-// Run web server
-func Run() {
+// Run spins up the server
+func Run(serverconf *utils.ServerConfig, orm *orm.ORM) {
 	r := gin.Default()
-	// Setup routes
-	//r.GET("/ping", handlers.Ping())
-	log.Println("Running @ http://" + HOST + ":" + PORT)
-	log.Fatalln(r.Run(HOST + ":" + PORT))
+
+	// Initialize the Auth providers
+	InitalizeAuthProviders(serverconf)
+
+	// Routes and Handlers
+	RegisterRoutes(serverconf, r, orm)
+
+	// Inform the user where the server is listening
+	logger.Info("Running @ " + serverconf.SchemaVersionedEndpoint(""))
+
+	// Run the server
+	// Print out and exit(1) to the OS if the server cannot run
+	logger.Fatal(r.Run(serverconf.ListenEndpoint()))
 }
