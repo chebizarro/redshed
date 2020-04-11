@@ -25,12 +25,15 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.5.2",
+    "@types/jwt-decode": "^2.2.1",
     "core-js": "^2.6.11",
     "dagre-d3": "^0.6.4",
     "eslint-loader": "^3.0.3",
     "fromentries": "^1.2.0",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "marked": "^0.7.0",
+    "md5": "^2.2.1",
     "parse-duration": "^0.1.2",
     "plotly.js-basic-dist": "^1.52.3",
     "portal-vue": "^1.5.1",
@@ -51,7 +54,8 @@
     "vue-property-decorator": "^8.4.0",
     "vue-router": "^3.1.6",
     "vuedraggable": "^2.23.2",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+    "vuex-class": "^0.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

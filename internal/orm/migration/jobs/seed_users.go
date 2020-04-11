@@ -15,7 +15,7 @@ var (
 	location    = "His house, maybe?"
 	users       = []*models.User{
 		{
-			Email:       "admin@test.com",
+			Email:       "admin@sharegap.net",
 			Name:        &uname,
 			FirstName:   &fname,
 			LastName:    &lname,

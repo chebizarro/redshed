@@ -3,8 +3,14 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-const store = new Vuex.Store({
-  strict: false,
-});
+import { user } from './user/user';
 
-export default store;
+const debug = process.env.NODE_ENV !== 'production';
+
+export default new Vuex.Store({
+  modules: {
+    user,
+  },
+  strict: debug,
+  plugins: [],
+});

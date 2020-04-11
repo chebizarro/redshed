@@ -1,6 +1,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
 
 @Component
 export default class App extends Vue {
@@ -14,6 +15,9 @@ export default class App extends Vue {
      */
     await Vue.$startup.start();
     //await Vue.$eventbus.start();
+
+  //@Getter('isAuthenticated', { namespace: 'user' }) private isAuthenticated!: boolean;
+
   }
 }
 </script>

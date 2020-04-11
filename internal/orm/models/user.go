@@ -159,7 +159,7 @@ func (u *User) HasPermission(permission string, entity string) (bool, error) {
 			return true, nil
 		}
 	}
-	return false, fmt.Errorf("user has no permission: [%s]", tag)
+	return false, fmt.Errorf("user [%s] has no permission: [%s]", u.Email, tag)
 }
 
 // HasPermissionBool verifies if user has a specific permission - returns t/f

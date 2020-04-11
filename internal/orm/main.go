@@ -20,7 +20,7 @@ import (
 	"github.com/chebizarro/redshed/pkg/utils"
 
 	//Imports the database dialect of choice
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 
 	"github.com/jinzhu/gorm"
 )

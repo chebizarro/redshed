@@ -1,5 +1,6 @@
 redshed.db
 .idea
+old/
 
 # Never commit the ENV file
 .env
