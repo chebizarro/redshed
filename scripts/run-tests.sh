@@ -1,5 +1,5 @@
 #!/bin/sh
-app="redshed"
+app="web"
 program="$buildPath/$app"
 
 printf "\nStart testing: $app\n"

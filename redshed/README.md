@@ -1,6 +1,6 @@
 # RedShed (redshed)
 
-A simple project management platform
+A GraphQL project management tool
 
 ## Install the dependencies
 ```bash

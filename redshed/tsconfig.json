@@ -1,47 +1,12 @@
 {
+  "extends": "@quasar/app/tsconfig-preset",
   "compilerOptions": {
-    "target": "es2015",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false,
-    "noUnusedLocals": false,
-    "sourceMap": true,
-    "allowJs": true,
     "baseUrl": ".",
-    "types": [
-      "quasar",
-      "webpack-env"
-    ],
+    "experimentalDecorators": true,
     "paths": {
       "@/*": [
         "src/*"
       ]
-    },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "test/**/*.ts",
-    "test/**/*.tsx",
-    "test/**/*.vue"
-  ],
-  "exclude": [
-    ".vscode/**",
-    "node_modules/**"
-  ]
+    }
+  }
 }

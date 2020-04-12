@@ -1,28 +1,33 @@
+/* eslint-env node */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/*
+ * This file runs in a Node context (it's NOT transpiled by Babel), so use only
+ * the ES6 features that are supported by your Node version. https://node.green/
+ */
+
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-const path = require('path');
-const IgnoreNotFoundExportPlugin = require('./build/ignore-not-found');
 
-module.exports = function (ctx) {
+const { configure } = require('quasar/wrappers')
+const path = require('path')
+
+module.exports = configure(function (ctx) {
+
+  const sharedEnv = {
+    AUTH_TOKEN: JSON.stringify('auth-token'),
+  };
+
   return {
-    // Quasar looks for *.js files by default
-    sourceFiles: {
-      router: 'src/router.ts',
-      store: 'src/store/index.ts'
-    },
-
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
-      'i18n',
-      'plugins',
-      'hello',
+      'i18n'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.sass',
+      'app.scss'
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -51,10 +56,27 @@ module.exports = function (ctx) {
       //            (fastest compile time; minimum bundle size; most tedious)
       // * true   - Import everything from Quasar
       //            (not treeshaking Quasar; biggest bundle size; convenient)
-      all: 'auto',
+      all: false,
 
-      components: [],
-      directives: [],
+      components: [
+        'QLayout',
+        'QHeader',
+        'QDrawer',
+        'QPageContainer',
+        'QPage',
+        'QToolbar',
+        'QToolbarTitle',
+        'QBtn',
+        'QIcon',
+        'QList',
+        'QItem',
+        'QItemSection',
+        'QItemLabel'
+      ],
+
+      directives: [
+        'Ripple'
+      ],
 
       // Quasar plugins
       plugins: []
@@ -63,13 +85,14 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: false,
 
+    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
+    supportTS: {
+      tsCheckerConfig: { eslint: true }
+    },
+
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-
-      open: false,
-
-      // scopeHoisting: false,
 
       // rtl: false, // https://quasar.dev/options/rtl-support
       // showProgress: false,
@@ -81,37 +104,43 @@ module.exports = function (ctx) {
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
-      extendWebpack (config) {
-        config.plugins.push(new IgnoreNotFoundExportPlugin());
-        config.performance.hints = ctx.prod ? 'warning' : false;
-
-        if (ctx.prod) {
-          // Function names are required to set up functions for VueX functionality
-          config
-            .optimization
-            .minimizer[0] // Terser
-            .options
-            .terserOptions
-            .keep_fnames = true;
+      extendWebpack (cfg) {
+        if (process.env.NODE_ENV === 'production') {
+          // linting is slow in TS projects, we execute it only for production builds
+          cfg.module.rules.push({
+            enforce: 'pre',
+            test: /\.(js|vue)$/,
+            loader: 'eslint-loader',
+            exclude: /node_modules/,
+            options: {
+              formatter: require('eslint').CLIEngine.getFormatter('stylish')
+            }
+          })
         }
       },
-
-      chainWebpack: config => {
+      chainWebpack (config) {
         // We're only using a subset from plotly
         // Add alias to enable typing regardless
-        //config.resolve.alias.set('plotly.js', 'plotly.js-basic-dist');
-
+        // config.resolve.alias.set('plotly.js', 'plotly.js-basic-dist');
         // This matches the @ alias set in tsconfig.json
         config.resolve.alias.set('@', path.resolve(__dirname, './src/'))
       },
 
+      env: ctx.dev
+        ? {
+          ...sharedEnv,
+          API_ENDPOINT : JSON.stringify('http://localhost:8080'),
+        }
+        : {
+          ...sharedEnv,
+        },
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
       port: 8080,
-      open: false // opens browser window automatically
+      open: true // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
@@ -129,11 +158,14 @@ module.exports = function (ctx) {
       workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: 'RedShed',
+        // eslint-disable-next-line @typescript-eslint/camelcase
         short_name: 'RedShed',
-        description: 'A simple project management platform',
+        description: 'A GraphQL project management tool',
         display: 'standalone',
         orientation: 'portrait',
+        // eslint-disable-next-line @typescript-eslint/camelcase
         background_color: '#ffffff',
+        // eslint-disable-next-line @typescript-eslint/camelcase
         theme_color: '#027be3',
         icons: [
           {
@@ -168,7 +200,7 @@ module.exports = function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
-      id: 'org.cordova.quasar.app'
+      id: 'net.redshed.app'
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
@@ -202,11 +234,10 @@ module.exports = function (ctx) {
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
 
-      extendWebpack (cfg) {
+      extendWebpack (/* cfg */) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       }
-    },
-    supportTS: true,
+    }
   }
-}
+})

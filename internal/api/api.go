@@ -79,7 +79,7 @@ func setUpRouter(router *gin.Engine) {
 }
 
 func SetupModels() *gorm.DB {
-	db, err := gorm.Open("sqlite3", "redshed.db")
+	db, err := gorm.Open("sqlite3", "web.db")
 
 	if err != nil {
 		panic("Failed to connect to database!" + err.Error())

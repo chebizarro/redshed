@@ -16,8 +16,8 @@ settings:
     force: false
     interval: 0s
 schema:
-  - name: redshed
-    path: cmd/redshed
+  - name: web
+    path: cmd/web
     commands:
       install:
         status: false

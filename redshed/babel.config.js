@@ -1,6 +1,6 @@
+/* eslint-env node */
 module.exports = {
-  extends: './.babelrc',
   presets: [
-    '@quasar/babel-preset-app',
-  ],
-};
+    '@quasar/babel-preset-app'
+  ]
+}

@@ -5,28 +5,28 @@ services:
     build:
       context: .
       dockerfile: docker/dev.dockerfile
-    working_dir: /redshed
+    working_dir: /web
     env_file:
       - .env
     ports:
       - 7777:7777
       - 5002:5002
     volumes:
-      - .:/redshed
+      - .:/web
   dev-linux:
     network_mode: "host"
     command: ./scripts/run-dev.sh
     build:
       context: .
       dockerfile: docker/dev.dockerfile
-    working_dir: /redshed
+    working_dir: /web
     env_file:
       - .env
     ports:
       - 7777:7777
       - 5002:5002
     volumes:
-      - .:/redshed
+      - .:/web
   prod:
     build:
       context: .

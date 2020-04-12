@@ -1,29 +1,19 @@
-<script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
-
-@Component
-export default class App extends Vue {
-
-  async created(): Promise<void> {
-    /**
-     * Order of startup is important here.
-     * Startup functions may register eventbus listeners.
-     * If they do so after the eventbus started,
-     * they will miss the first (immediate) data push.
-     */
-    await Vue.$startup.start();
-    //await Vue.$eventbus.start();
-
-  //@Getter('isAuthenticated', { namespace: 'user' }) private isAuthenticated!: boolean;
-
-  }
-}
-</script>
-
 <template>
   <div id="q-app">
     <router-view />
   </div>
 </template>
+
+<script lang="ts">
+
+
+import { Vue } from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
+
+export default class App extends Vue {
+
+  @Getter('isAuthenticated', { namespace: 'user' }) private isAuthenticated!: boolean;
+
+  private drawer: boolean = false;
+}
+</script>
