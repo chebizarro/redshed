@@ -6,7 +6,11 @@
     >
 
       <q-card-section>
-        <img alt="Quasar logo" src="~assets/quasar-logo-full.svg">
+        <img alt="RedShed" src="~assets/redshed-md.png">
+
+        <div class="text-h5">
+          RedShed
+        </div>
 
         <div class="text-h6">
           {{ $t('auth.login.login') }}
