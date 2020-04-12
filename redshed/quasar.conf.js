@@ -22,7 +22,8 @@ module.exports = configure(function (ctx) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
-      'i18n'
+      'i18n',
+      'auth'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -63,6 +64,9 @@ module.exports = configure(function (ctx) {
         'QHeader',
         'QDrawer',
         'QPageContainer',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
         'QPage',
         'QToolbar',
         'QToolbarTitle',
@@ -71,7 +75,8 @@ module.exports = configure(function (ctx) {
         'QList',
         'QItem',
         'QItemSection',
-        'QItemLabel'
+        'QItemLabel',
+        'QInput'
       ],
 
       directives: [

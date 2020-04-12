@@ -4,8 +4,16 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/Index.vue') }]
-  }
+    children: [{ path: '', component: () => import('pages/Index.vue'), meta: { requiresAuth: true } }]
+  },
+  {
+    path: '/login',
+    name: 'login', component: () => import('layouts/LoginLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/auth/Login.vue') }
+    ]
+  },
+
 ]
 
 // Always leave this as last one
