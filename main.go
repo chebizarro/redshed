@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/chebizarro/redshed/config"
-	"github.com/chebizarro/redshed/internal/api"
+	"github.com/chebizarro/redshed/old/api"
 	"strconv"
 )
 

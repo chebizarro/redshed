@@ -1,6 +1,6 @@
 #!/bin/sh
 buildPath="build"
-app="web"
+app="redshed"
 program="$buildPath/$app"
 
 printf "\nStart app: $app\n"

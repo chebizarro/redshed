@@ -5,5 +5,6 @@ declare namespace NodeJS {
     VUE_ROUTER_BASE: string | undefined;
     AUTH_TOKEN: string | 'auth-token';
     API_ENDPOINT: string | undefined;
+    GOOGLE_KEY: string | undefined;
   }
 }

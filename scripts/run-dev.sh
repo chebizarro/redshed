@@ -1,5 +1,5 @@
 #!/bin/sh
-app="web"
+app="redshed"
 src="$srcPath/$app/$pkgFile"
 
 printf "\nStart running: $app\n"

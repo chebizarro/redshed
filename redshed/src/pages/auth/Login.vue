@@ -1,87 +1,76 @@
 <template>
-  <q-page class="flex flex-center">
-    <q-card
-      square
-      style="width: 400px; padding:50px"
-    >
-
-      <q-card-section>
-        <img alt="RedShed" src="~assets/redshed-md.png">
-
-        <div class="text-h5">
-          RedShed
-        </div>
-
-        <div class="text-h6">
-          {{ $t('auth.login.login') }}
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <EmailTextField v-model="email" />
-        <PasswordTextField v-model="password" />
-      </q-card-section>
-
-      <q-card-actions>
-        <q-btn
-          color="primary"
-          :loading="loading"
-          @click="doLogin"
-        >
-          {{ $t('auth.login.login') }}
-        </q-btn>
-        <q-btn>
-          {{ $t('auth.login.social.google') }}
-        </q-btn>
-      </q-card-actions>
-
-      <router-link to="/password/forgot">
-        <a>{{ this.$t('auth.login.password_forgot') }}</a>
-      </router-link>
-
-    </q-card>
-  </q-page>
-
+  <div>
+    <h1>Test</h1>
+    <button @click="handleClickGetAuth" :disabled="!isInit">get auth code</button>
+    <button @click="handleClickSignIn" v-if="!isSignIn" :disabled="!isInit">signIn</button>
+    <button @click="handleClickSignOut" v-if="isSignIn" :disabled="!isInit">signOout</button>
+  </div>
 </template>
 
+<script>
+  /**
+   * You should first need to place these 2 lines of code in your APP ENTRY file, e.g. src/main.js
+   *
+   * import GAuth from 'vue-google-oauth2'
+   * Vue.use(GAuth, {clientId: '4584XXXXXXXX-2gqknkvdjfkdfkvb8uja2k65sldsms7qo9.apps.googleusercontent.com'})
+   *
+   */
+  export default {
+    name: 'login',
+    data () {
+      return {
+        isInit: false,
+        isSignIn: false
+      }
+    },
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Action } from 'vuex-class';
-import EmailTextField from '@/components/auth/EmailTextField.vue';
-import PasswordTextField from '@/components/auth/PasswordTextField.vue';
+    methods: {
+      handleClickGetAuth(){
+        this.$gAuth.getAuthCode()
+          .then(authCode => {
+            // On success
+            return this.$http.post('http://localhost:7777/v1/auth/google', { code: authCode, redirect_uri: 'postmessage' })
+          })
+          .then(response => {
+            // And then
+          })
+          .catch(error => {
+            console.log('Well, that borked it')
+            // On fail do something
+          })
+      },
 
-@Component({
-  components: {
-    //Alert,
-    EmailTextField,
-    PasswordTextField,
-  },
-})
-export default class Login extends Vue {
-  @Action('login', { namespace: 'user' }) private login: any;
+      handleClickSignIn(){
+        this.$gAuth.signIn()
+          .then(user => {
+            // On success do something, refer to https://developers.google.com/api-client-library/javascript/reference/referencedocs#googleusergetid
+            console.log('user', GoogleUser)
+            this.isSignIn = this.$gAuth.isAuthorized
+          })
+          .catch(error  => {
+            // On fail do something
+          })
+      },
 
-  private email: string = '';
-  private password: string = '';
-  private loading: boolean = false;
-  private error: string = '';
-
-  private doLogin() {
-    if ((this.$refs.form as HTMLFormElement).validate()) {
-      this.loading = true;
-
-      this.login({email: this.email, password: this.password}).then(() => {
-        this.loading = false;
-        if (this.$route.query.next) {
-          this.$router.replace({ path: this.$route.query.next as string });
-        } else {
-          this.$router.replace({ path: '/' });
-        }
-      }).catch((err: any) => {
-        this.error = err.message;
-        this.loading = false;
-      });
+      handleClickSignOut(){
+        this.$gAuth.signOut()
+          .then(() => {
+            // On success do something
+            this.isSignIn = this.$gAuth.isAuthorized
+          })
+          .catch(error  => {
+            // On fail do something
+          })
+      }
+    },
+    mounted(){
+      let that = this
+      let checkGauthLoad = setInterval(function(){
+        that.isInit = that.$gAuth.isInit
+        that.isSignIn = that.$gAuth.isAuthorized
+        if(that.isInit) clearInterval(checkGauthLoad)
+      }, 1000);
     }
+
   }
-}
 </script>

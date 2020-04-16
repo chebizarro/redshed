@@ -8,13 +8,14 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
-const { configure } = require('quasar/wrappers')
-const path = require('path')
+const { configure } = require('quasar/wrappers');
+const path = require('path');
 
 module.exports = configure(function (ctx) {
 
   const sharedEnv = {
     AUTH_TOKEN: JSON.stringify('auth-token'),
+    GOOGLE_KEY: JSON.stringify('104197714087-qalk2efcpqd4k82q489rndjn590tp5gs.apps.googleusercontent.com')
   };
 
   return {
@@ -23,7 +24,8 @@ module.exports = configure(function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
       'i18n',
-      'auth'
+      //'auth',
+      'gauth'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css

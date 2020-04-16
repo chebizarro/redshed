@@ -29,8 +29,6 @@ export default route<StoreInterface>(function ({ Vue }) {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
       const token = localStorage.getItem(process.env.AUTH_TOKEN);
 
-      console.log("call guard called!");
-
       if (token === null) {
         next({
           path: '/login',

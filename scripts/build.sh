@@ -2,8 +2,8 @@
 srcPath="cmd"
 pkgFile="main.go"
 outputPath="build"
-entrypoint="web"
-outputApp="web"
+entrypoint="redshed"
+outputApp="redshed"
 output="$outputPath/$outputApp"
 src="$srcPath/$entrypoint/$pkgFile"
 
