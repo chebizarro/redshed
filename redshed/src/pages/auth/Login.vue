@@ -8,13 +8,7 @@
 </template>
 
 <script>
-  /**
-   * You should first need to place these 2 lines of code in your APP ENTRY file, e.g. src/main.js
-   *
-   * import GAuth from 'vue-google-oauth2'
-   * Vue.use(GAuth, {clientId: '4584XXXXXXXX-2gqknkvdjfkdfkvb8uja2k65sldsms7qo9.apps.googleusercontent.com'})
-   *
-   */
+
   export default {
     name: 'login',
     data () {
@@ -26,16 +20,17 @@
 
     methods: {
       handleClickGetAuth(){
+
         this.$gAuth.getAuthCode()
           .then(authCode => {
             // On success
-            return this.$http.post('http://localhost:7777/v1/auth/google', { code: authCode, redirect_uri: 'postmessage' })
+            return this.$axios.post('http://localhost:7777/v1/auth/google/exchange', authCode)
           })
           .then(response => {
             // And then
           })
           .catch(error => {
-            console.log('Well, that borked it')
+            console.log(error)
             // On fail do something
           })
       },

@@ -24,7 +24,7 @@ module.exports = configure(function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
       'i18n',
-      //'auth',
+      'axios',
       'gauth'
     ],
 

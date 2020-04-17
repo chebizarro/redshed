@@ -8,6 +8,7 @@ declare module 'vue/types/vue' {
   }
 }
 
+
 Vue.use(GAuth,
   {
     clientId: process.env.GOOGLE_KEY,

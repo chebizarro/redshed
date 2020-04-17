@@ -4,12 +4,15 @@ import (
 	"github.com/chebizarro/redshed/internal/logger"
 	"github.com/chebizarro/redshed/internal/orm"
 	"github.com/chebizarro/redshed/pkg/utils"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 // Run spins up the server
 func Run(serverconf *utils.ServerConfig, orm *orm.ORM) {
 	r := gin.Default()
+
+	r.Use(cors.Default())
 
 	// Initialize the Auth providers
 	InitalizeAuthProviders(serverconf)
