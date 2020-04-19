@@ -25,7 +25,7 @@ func InitalizeAuthProviders(cfg *utils.ServerConfig) error {
 				p.Scopes...))
 		case "google":
 			providers = append(providers, google.New(p.ClientKey, p.Secret,
-				cfg.SchemaVersionedEndpoint("/auth/"+p.Provider+"/callback"),
+				"postmessage",
 				p.Scopes...))
 		case "twitter":
 			providers = append(providers, twitter.New(p.ClientKey, p.Secret,
